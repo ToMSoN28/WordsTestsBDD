@@ -3,12 +3,15 @@ package com.example.wordsclient;
 import com.example.wordsclient.model.Word;
 import com.example.wordsclient.model.WordDTO;
 import com.example.wordsclient.service.AppConfig;
+import com.example.wordsclient.service.ResponseEntityService;
 import com.example.wordsclient.service.WordsService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
@@ -17,6 +20,9 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 public class WordsClientApplicationTests {
     @Autowired
     private WordsService wordsService; // obiekt do komunikacji z api
+
+    @Autowired
+    private ResponseEntityService responseEntityService; // obiekt do komunikacji z api
 
     @Test
     public void testReadWords() {
@@ -88,6 +94,25 @@ public class WordsClientApplicationTests {
         wordsService.updateWord("-234",test,"password");
         System.out.println("zle haslo");
         wordsService.updateWord("152",test,"password1");
+
+
+        ResponseEntity<String> response = responseEntityService.updateWord("152",test,"password1");
+        HttpStatusCode statusCode = response.getStatusCode();
+        System.out.println("Status Code: " + statusCode);
+
+        ResponseEntity<WordDTO[]> responses = responseEntityService.readWords();
+        statusCode = responses.getStatusCode();
+        WordDTO[] words = responses.getBody();
+        System.out.println("Status Code: " + statusCode);
+        if (words != null) {
+            for (WordDTO word1 : words) {
+                System.out.println("ID: " + word1.getId());
+                System.out.println("Słowo: " + word1.getName());
+            }
+        }
+
+
+
 
     }
 
