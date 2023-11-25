@@ -15,5 +15,5 @@ public class TestConfig {
     }
 
     @Bean
-    public ResponseEntityService() { return new ResponseEntityService(new RestTemplate()); }
+    public ResponseEntityService ResponseEntityService() { return new ResponseEntityService(new RestTemplate()); }
 }

@@ -1,5 +1,7 @@
 package TestyBDD;
 
+import com.example.wordsclient.TestConfig;
+import com.example.wordsclient.service.AppConfig;
 import com.example.wordsclient.service.ResponseEntityService;
 import com.example.wordsclient.service.WordsService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -12,15 +14,18 @@ import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Base64;
 import java.util.Map;
 
-
+@SpringBootTest(classes = {AppConfig.class, TestConfig.class})
 public class ScenarioStepDefinition {
 
     @Autowired
@@ -44,7 +49,7 @@ public class ScenarioStepDefinition {
     @When("^Request GET on endpoint /words/$")
     public void requestOnEndpointWords() {
         HttpClient httpClient = HttpClients.createDefault();
-        HttpGet httpGet = new HttpGet("https:127.0.0.1:8080/words/");
+        HttpGet httpGet = new HttpGet("http://localhost:8080/words");
         try {
             // Wykonujemy zapytanie
             HttpResponse response = httpClient.execute(httpGet);
@@ -69,7 +74,7 @@ public class ScenarioStepDefinition {
     @Then("Code response {int} and json with {string} empty list")
     public void codeResponseAndJsonWithEmptyList(int arg0, String arg1) {
         Assertions.assertEquals(arg0, responseCode);
-        if (arg1=="no") {
+        if (arg1.equals("not")) {
             Assertions.assertNotEquals("{}", responseJson);
         } else {
             Assertions.assertEquals("{}", responseJson);
@@ -87,7 +92,7 @@ public class ScenarioStepDefinition {
 
     @When("^Request GET on endpoint /words/id$")
     public void requestOnEndpointWordsId() {
-        String url = "https:127.0.0.1:8080/words/"+wordId;
+        String url = "http://localhost:8080/words/"+wordId;
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         try {
@@ -111,7 +116,7 @@ public class ScenarioStepDefinition {
 
     @When("^Request GET on endpoint /words/search/fragment$")
     public void requestOnEndpointWordsSearchFragment() {
-        String url = "https:127.0.0.1:8080/words/search/"+part;
+        String url = "http://localhost:8080/words/search/"+part;
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         try {
@@ -161,11 +166,19 @@ public class ScenarioStepDefinition {
     @When("^Request POST on endpoint /words/ with json$")
     public void requestPOSTOnEndpointWordsWithJson() {
         String json = "{\"name\":\"" + word + "\",\"definition\":\"" + definition + "\",\"example\":\"" + example + "\"}";
+        System.out.println(json);
+
         HttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https:127.0.0.1:8080/words/");
+        HttpPost httpPost = new HttpPost("http://localhost:8080/words");
+
         try {
-            StringEntity stringEntity = new StringEntity(json);
+            StringEntity stringEntity = new StringEntity(json, ContentType.APPLICATION_JSON);
             httpPost.setEntity(stringEntity);
+
+            // Set headers
+            httpPost.setHeader("Content-type", "application/json");
+            httpPost.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString("admin:password".getBytes()));
+
             HttpResponse response = httpClient.execute(httpPost);
             responseCode = response.getStatusLine().getStatusCode();
             responseJson = EntityUtils.toString(response.getEntity());
@@ -173,12 +186,11 @@ public class ScenarioStepDefinition {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Then("Get word with {string} and compare with given inputs")
     public void getWordWithAndCompareWithGivenInputs(String arg0) {
-        String url = "https:127.0.0.1:8080/words/"+arg0;
+        String url = "http://localhost:8080/words/"+arg0;
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         try {
@@ -231,7 +243,7 @@ public class ScenarioStepDefinition {
         //in json supposed to be example instead of ex
         String json = "{\"word\":\"" + word + "\",\"def\":\"" + definition + "\",\"ex\":\"" + example + "\"}";
         HttpClient httpClient = HttpClients.createDefault();
-        HttpPost httpPost = new HttpPost("https:127.0.0.1:8080/words/");
+        HttpPost httpPost = new HttpPost("http://localhost:8080/words/");
         try {
             StringEntity stringEntity = new StringEntity(json);
             httpPost.setEntity(stringEntity);
@@ -248,7 +260,7 @@ public class ScenarioStepDefinition {
     public void requestPUTOnEndpointWordsIdWithJson() {
         String json = "{\"name\":\"" + word + "\",\"definition\":\"" + definition + "\",\"example\":\"" + example + "\"}";
         HttpClient httpClient = HttpClients.createDefault();
-        String url = "https:127.0.0.1:8080/words/"+wordId;
+        String url = "http://localhost:8080/words/"+wordId;
         HttpPut httpPut = new HttpPut(url);
         try {
             StringEntity stringEntity = new StringEntity(json);
@@ -269,7 +281,7 @@ public class ScenarioStepDefinition {
         //in json supposed to be example instead of ex
         String json = "{\"word\":\"" + word + "\",\"def\":\"" + definition + "\",\"ex\":\"" + example + "\"}";
         HttpClient httpClient = HttpClients.createDefault();
-        String url = "https:127.0.0.1:8080/words/"+wordId;
+        String url = "http://localhost:8080/words/"+wordId;
         HttpPost httpPost = new HttpPost(url);
         try {
             StringEntity stringEntity = new StringEntity(json);
@@ -285,7 +297,7 @@ public class ScenarioStepDefinition {
 
     @Given("Get actual word")
     public void getActualWord() {
-        String url = "https:127.0.0.1:8080/words/"+wordId;
+        String url = "http://localhost:8080/words/"+wordId;
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         try {
@@ -303,7 +315,7 @@ public class ScenarioStepDefinition {
 
     @Then("Compare with latest version")
     public void compareWithLatestVersion() {
-        String url = "https:127.0.0.1:8080/words/"+wordId;
+        String url = "http://localhost:8080/words/"+wordId;
         HttpClient httpClient = HttpClients.createDefault();
         HttpGet httpGet = new HttpGet(url);
         try {
@@ -328,7 +340,7 @@ public class ScenarioStepDefinition {
 
     @When("^Request DELETE on endpoint /words/id$")
     public void requestDELETEOnEndpointWordsId() {
-        String url = "https:127.0.0.1:8080/words/"+wordId;
+        String url = "http://localhost:8080/words/"+wordId;
         HttpClient httpClient = HttpClients.createDefault();
         HttpDelete httpDelete = new HttpDelete(url);
 

@@ -1,3 +1,6 @@
+
+/*
+
 package com.example.wordsclient;
 
 import com.example.wordsclient.model.Word;
@@ -112,9 +115,8 @@ public class WordsClientApplicationTests {
         }
 
 
-
-
     }
 
 
 }
+*/

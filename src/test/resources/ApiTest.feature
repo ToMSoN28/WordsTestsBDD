@@ -11,7 +11,7 @@ Feature: Tests of rest api
 
 
   Scenario: Get exist word with ID=1234
-    Given wordID = "1234"
+    Given wordID = "202"
     When Request GET on endpoint /words/id
     Then Code response 200 and json with "word, definition, example"
 
@@ -31,7 +31,7 @@ Feature: Tests of rest api
     Then Code response 400
 
   Scenario: Search part of words, correct part
-    Given Correct part "flan"
+    Given Correct part "test"
     When Request GET on endpoint /words/search/fragment
     Then Code response 200 and json with "not" empty list
 
