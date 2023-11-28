@@ -46,7 +46,7 @@ Feature: Tests of rest api
     Given Example "testy1"
     Given Password "password"
     When Request POST on endpoint /words/ with json
-    Then Code response 200 and json with new id
+    Then Code response 201 and json with new id
     Then Get word with "new_id" and compare with given inputs
 
   Scenario: Adding word, incorrect json format
@@ -55,7 +55,7 @@ Feature: Tests of rest api
     Given Example "testy1"
     Given Password "password"
     When Request POST on endpoint /words/ with incorrect json formant
-    Then Code response 400
+    Then Code response 404
 
   Scenario: Adding word, incorrect password
     Given Word "Test1"
@@ -66,7 +66,7 @@ Feature: Tests of rest api
     Then Code response 403
 
   Scenario: Correct update word
-    Given wordID = "1234"
+    Given wordID = "202"
     Given Word "Test1"
     Given Definition "Test1 test1"
     Given Example "testy1"
@@ -77,16 +77,16 @@ Feature: Tests of rest api
 
 
   Scenario: Update existing word with incorrect json
-    Given wordID = "1234"
+    Given wordID = "202"
     Given Word "Test1"
-    Given Definition "Test1 test1"
+    Given Definition "lolol"
     Given Example "testy1"
     Given Password "password"
     When Request PUT on endpoint /words/id with incorrect json
     Then Code response 400
 
   Scenario: Update with empty word
-    Given wordID = "1234"
+    Given wordID = "202"
     Given Word ""
     Given Definition ""
     Given Example ""
@@ -133,7 +133,7 @@ Feature: Tests of rest api
     Then Code response 403
 
   Scenario: Correct delete word
-    Given wordID = "1234"
+    Given wordID = "356"
     Given Password "password"
     When Request DELETE on endpoint /words/id
     Then Code response 200

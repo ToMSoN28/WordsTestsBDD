@@ -177,14 +177,16 @@ public class ScenarioStepDefinition {
 
             // Set headers
             httpPost.setHeader("Content-type", "application/json");
-            httpPost.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString("admin:password".getBytes()));
+            httpPost.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString(("admin:" + password).getBytes()));
 
             HttpResponse response = httpClient.execute(httpPost);
             responseCode = response.getStatusLine().getStatusCode();
             responseJson = EntityUtils.toString(response.getEntity());
+            System.out.println(responseCode);
+            System.out.println(responseJson);
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -196,6 +198,8 @@ public class ScenarioStepDefinition {
         try {
             // Wykonujemy zapytanie
             HttpResponse response = httpClient.execute(httpGet);
+            httpGet.setHeader("Content-type", "application/json");
+            httpGet.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString("admin:password".getBytes()));
 
             // Pobieramy status odpowiedzi HTTP
             int statusCode = response.getStatusLine().getStatusCode();
@@ -227,7 +231,7 @@ public class ScenarioStepDefinition {
             Assertions.assertEquals(example, (String)map.get("example"));
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 
@@ -246,6 +250,8 @@ public class ScenarioStepDefinition {
         HttpPost httpPost = new HttpPost("http://localhost:8080/words/");
         try {
             StringEntity stringEntity = new StringEntity(json);
+            httpPost.setHeader("Content-type", "application/json");
+            httpPost.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString(("admin:" + password).getBytes()));
             httpPost.setEntity(stringEntity);
             HttpResponse response = httpClient.execute(httpPost);
             responseCode = response.getStatusLine().getStatusCode();
@@ -265,6 +271,8 @@ public class ScenarioStepDefinition {
         try {
             StringEntity stringEntity = new StringEntity(json);
             httpPut.setEntity(stringEntity);
+            httpPut.setHeader("Content-type", "application/json");
+            httpPut.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString(("admin:" + password).getBytes()));
             HttpResponse response = httpClient.execute(httpPut);
             responseCode = response.getStatusLine().getStatusCode();
             responseJson = EntityUtils.toString(response.getEntity());
@@ -282,11 +290,13 @@ public class ScenarioStepDefinition {
         String json = "{\"word\":\"" + word + "\",\"def\":\"" + definition + "\",\"ex\":\"" + example + "\"}";
         HttpClient httpClient = HttpClients.createDefault();
         String url = "http://localhost:8080/words/"+wordId;
-        HttpPost httpPost = new HttpPost(url);
+        HttpPut httpPut = new HttpPut(url);
         try {
             StringEntity stringEntity = new StringEntity(json);
-            httpPost.setEntity(stringEntity);
-            HttpResponse response = httpClient.execute(httpPost);
+            httpPut.setEntity(stringEntity);
+            httpPut.setHeader("Content-type", "application/json");
+            httpPut.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString(("admin:" + password).getBytes()));
+            HttpResponse response = httpClient.execute(httpPut);
             responseCode = response.getStatusLine().getStatusCode();
             responseJson = EntityUtils.toString(response.getEntity());
 
@@ -346,6 +356,8 @@ public class ScenarioStepDefinition {
 
         try {
             // Wykonujemy żądanie DELETE
+            httpDelete.setHeader("Content-type", "application/json");
+            httpDelete.setHeader("Authorization", "Basic " + Base64.getEncoder().encodeToString(("admin:" + password).getBytes()));
             HttpResponse response = httpClient.execute(httpDelete);
 
             // Pobieramy status odpowiedzi HTTP
