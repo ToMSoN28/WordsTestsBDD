@@ -1,24 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-  <title>Add Word</title>
-  <!-- Add Bootstrap CSS -->
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<html id="addWordHtml" xmlns:th="http://www.thymeleaf.org">
+<head id="addWordHead">
+    <title id="addWordTitle">Add Word</title>
+    <!-- Add Bootstrap CSS -->
+    <link id="addWordBootstrapLink" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
-  <!-- Add your custom CSS -->
-  <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <!-- Add your custom CSS -->
+    <link id="addWordCustomLink" rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
-<div class="container">
-  <h1>Add Word</h1>
-  <form action="#" th:action="@{/words}" method="post" class="form-group">
-    <input type="text" name="name" placeholder="Word" class="form-control" />
-    <input type="text" name="definition" placeholder="Definition" class="form-control" />
-    <input type="text" name="example" placeholder="Example" class="form-control" />
-    <input type="password" name="password" placeholder="Password" class="form-control" />
-    <input type="submit" value="Add" class="btn btn-primary" />
-  </form>
-  <a th:href="@{/}" class="btn btn-secondary">Back to Words</a>
+<body id="addWordBody">
+<div id="addWordContainer" class="container">
+    <h1 id="addWordHeading">Add Word</h1>
+    <form id="addWordForm" action="#" th:action="@{/words}" method="post" class="form-group">
+        <input id="addWordInputName" type="text" name="name" placeholder="Word" class="form-control" />
+        <input id="addWordInputDefinition" type="text" name="definition" placeholder="Definition" class="form-control" />
+        <input id="addWordInputExample" type="text" name="example" placeholder="Example" class="form-control" />
+        <input id="addWordInputPassword" type="password" name="password" placeholder="Password" class="form-control" />
+        <input id="addWordSubmit" type="submit" value="Add" class="btn btn-primary" />
+    </form>
+    <a id="addWordBackButton" th:href="@{/}" class="btn btn-secondary">Back to Words</a>
 </div>
 </body>
 </html>

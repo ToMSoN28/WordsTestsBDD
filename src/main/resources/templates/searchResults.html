@@ -1,33 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Search Results</title>
+<html id="searchResultsHtml" xmlns:th="http://www.thymeleaf.org">
+<head id="searchResultsHead">
+    <title id="searchResultsTitle">Search Results</title>
     <!-- Add Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link id="searchResultsBootstrapLink" rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
 
     <!-- Add your custom CSS -->
-    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <link id="searchResultsCustomLink" rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
-<body>
-<div class="container">
-    <h1>Search Results</h1>
-    <table class="table">
-        <thead>
-        <tr>
-            <th>Word</th>
-            <th>Definition</th>
-            <th>Example</th>
+<body id="searchResultsBody">
+<div id="searchResultsContainer" class="container">
+    <h1 id="searchResultsHeading">Search Results</h1>
+    <table id="searchResultsTable" class="table">
+        <thead id="searchResultsTableHead">
+        <tr id="searchResultsTableHeadRow">
+            <th id="searchResultsTableHeadWord">Word</th>
+            <th id="searchResultsTableHeadDefinition">Definition</th>
+            <th id="searchResultsTableHeadExample">Example</th>
         </tr>
         </thead>
-        <tbody>
-        <tr th:each="word : ${words}">
-            <td th:text="${word.name}"></td>
-            <td th:text="${word.definition}"></td>
-            <td th:text="${word.example}"></td>
+        <tbody id="searchResultsTableBody">
+        <tr th:each="word : ${words}" th:id="${'searchResultsRow-' + word.id}">
+            <td th:id="${'searchResultsWord-' + word.id}" th:text="${word.name}"></td>
+            <td th:id="${'searchResultsDefinition-' + word.id}" th:text="${word.definition}"></td>
+            <td th:id="${'searchResultsExample-' + word.id}" th:text="${word.example}"></td>
         </tr>
         </tbody>
     </table>
-    <a href="/" class="btn btn-primary">Back to Words</a>
+    <a id="searchResultsBackButton" href="/" class="btn btn-primary">Back to Words</a>
 </div>
 </body>
 </html>

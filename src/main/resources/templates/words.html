@@ -9,13 +9,13 @@
     <link rel="stylesheet" th:href="@{/css/styles.css}">
 </head>
 <body>
-<div class="container">
-    <h1>Words</h1>
-    <form action="#" th:action="@{/search}" method="get" class="form-inline my-2">
-        <input type="text" name="name" placeholder="Search..." class="form-control mr-sm-2" />
-        <input type="submit" value="Search" class="btn btn-outline-success my-2 my-sm-0" />
+<div class="container" id="wordsContainer">
+    <h1 id="title">Words</h1>
+    <form action="#" th:action="@{/search}" method="get" class="form-inline my-2" id="searchForm">
+        <input type="text" name="name" placeholder="Search..." class="form-control mr-sm-2" id="searchInput" />
+        <input type="submit" value="Search" class="btn btn-outline-success my-2 my-sm-0" id="searchButton" />
     </form>
-    <table class="table">
+    <table class="table" id="wordsTable">
         <thead>
         <tr>
             <th>Word</th>
@@ -25,22 +25,22 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="word : ${words}">
+        <tr th:each="word : ${words}" th:id="${'wordRow-' + word.id}">
             <td th:id="${'word-' + word.id}" th:text="${word.name}"></td>
             <td th:id="${'definition-' + word.id}" th:text="${word.definition}"></td>
             <td th:id="${'example-' + word.id}" th:text="${word.example}"></td>
             <td>
-                <a th:href="@{'/edit/' + ${word.id}}" class="btn btn-primary">Edit</a>
-                <form action="#" th:action="@{/delete}" method="post" style="display: inline;">
+                <a th:href="@{'/edit/' + ${word.id}}" class="btn btn-primary" th:id="${'editButton-' + word.id}">Edit</a>
+                <form action="#" th:action="@{/delete}" method="post" style="display: inline;" th:id="${'deleteForm-' + word.id}">
                     <input type="hidden" name="id" th:value="${word.id}" />
-                    <input type="password" name="password" placeholder="Password" class="form-control" />
-                    <input type="submit" value="Delete" class="btn btn-danger" />
+                    <input type="password" name="password" placeholder="Password" class="form-control" th:id="${'passwordInput-' + word.id}" />
+                    <input type="submit" value="Delete" class="btn btn-danger" th:id="${'deleteButton-' + word.id}" />
                 </form>
             </td>
         </tr>
         </tbody>
     </table>
-    <a th:href="@{/add}" class="btn btn-success">Add Word</a>
+    <a th:href="@{/add}" class="btn btn-success" id="addWordButton">Add Word</a>
 </div>
 </body>
 </html>
