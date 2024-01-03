@@ -1,6 +1,5 @@
 package com.example.wordsclient.service;
 import com.example.wordsclient.model.Word;
-import com.example.wordsclient.model.WordDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
@@ -44,10 +43,9 @@ public class WordsService {
         }
     }
 
-
-    public WordDTO[] readWords() {
+    public Word[] readWords() {
         try {
-            ResponseEntity<WordDTO[]> responseEntity = restTemplate.getForEntity(apiUrl, WordDTO[].class);
+            ResponseEntity<Word[]> responseEntity = restTemplate.getForEntity(apiUrl, Word[].class);
             return responseEntity.getBody();
         }catch (HttpClientErrorException e) {
             handleHttpClientErrorException(e);
@@ -92,6 +90,7 @@ public class WordsService {
     }
 
     public Word getWordById(String wordId) { //id to string bo jeśli uzyjemy komendy np. curl to wartość przekazywana jest jako string parsowany na int
+        System.out.println(wordId);
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         try {
@@ -101,6 +100,7 @@ public class WordsService {
                     new HttpEntity<>(headers),
                     Word.class
             );
+            System.out.println(responseEntity.getBody());
             return responseEntity.getBody();
 
         } catch (HttpClientErrorException e) {
@@ -114,13 +114,14 @@ public class WordsService {
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         try {
-            ResponseEntity<Word[]> responseEntity = restTemplate.exchange(
+            ResponseEntity<Word[]>  responseEntity = restTemplate.exchange(
                     apiUrl + "/" + search_endpoint + "/" + fragment,
                     HttpMethod.GET,
                     new HttpEntity<>(headers),
                     Word[].class
-            );
-        }catch (HttpClientErrorException e) {
+                    );
+            return responseEntity.getBody();
+        } catch (HttpClientErrorException e) {
             handleHttpClientErrorException(e);
 
         }

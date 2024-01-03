@@ -68,7 +68,7 @@ Feature: Tests of rest api
   Scenario: Correct update word
     Given wordID = "202"
     Given Word "Test1"
-    Given Definition "Test1 test1"
+    Given Definition "Test2 test2"
     Given Example "testy1"
     Given Password "password"
     When Request PUT on endpoint /words/id with json
@@ -133,7 +133,7 @@ Feature: Tests of rest api
     Then Code response 403
 
   Scenario: Correct delete word
-    Given wordID = "356"
+    Given wordID = "702"
     Given Password "password"
     When Request DELETE on endpoint /words/id
     Then Code response 200

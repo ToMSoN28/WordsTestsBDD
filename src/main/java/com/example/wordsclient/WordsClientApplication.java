@@ -1,17 +1,14 @@
 package com.example.wordsclient;
 
-import com.example.wordsclient.service.AppConfig;
-import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+
+@SpringBootApplication
 public class WordsClientApplication {
-
-
-
     public static void main(String[] args) {
-        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
-        context.register(AppConfig.class);
-        context.refresh();
-        context.close();
+        SpringApplication.run(WordsClientApplication.class, args);
 
     }
 

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Edit Word</title>
+    <!-- Add Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+    <!-- Add your custom CSS -->
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+</head>
+<body>
+<div class="container">
+    <h1>Edit Word</h1>
+    <form action="#" th:action="@{/edit}" method="post" class="form-group">
+        <input type="hidden" name="id" th:value="${word.id}" />
+        <input type="text" name="name" th:value="${word.name}" placeholder="Word" class="form-control" />
+        <input type="text" name="definition" th:value="${word.definition}" placeholder="Definition" class="form-control" />
+        <input type="text" name="example" th:value="${word.example}" placeholder="Example" class="form-control" />
+        <input type="password" name="password" placeholder="Password" class="form-control" />
+        <input type="submit" value="Update" class="btn btn-primary" />
+    </form>
+    <a th:href="@{/words}" class="btn btn-secondary">Back to Words</a>
+</div>
+</body>
+</html>
